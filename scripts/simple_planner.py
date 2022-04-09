@@ -140,16 +140,7 @@ if __name__ == '__main__':
 		# add this point to the plan
 		plan.points.append(plan_point2)
 		
-		plan_point3 = Twist()
-		# define a point away from the initial position
-		plan_point3.linear.x = xc - relative_frame_camera_checker_x + relative_frame_base_checker_x
-		plan_point3.linear.y = yc - relative_frame_camera_checker_y + relative_frame_base_checker_y
-		plan_point3.linear.z = zc - relative_frame_camera_checker_z + relative_frame_base_checker_z
-		plan_point3.angular.x = 3.14
-		plan_point3.angular.y = 0.0
-		plan_point3.angular.z = 1.57
-		# add this point to the plan
-		#plan.points.append(plan_point3)
+	
 		
 		plan_point4 = Twist()
 		# define a point away from the initial position
@@ -160,13 +151,13 @@ if __name__ == '__main__':
 		plan_point4.angular.y = 0.0
 		plan_point4.angular.z = 1.57
 		# add this point to the plan
-		plan.points.append(plan_point4)
+		#plan.points.append(plan_point4)
 		
 		plan_point5 = Twist()
 		# define a point away from the initial position
-		plan_point5.linear.x = base.point.x +checker.point.x+camera.point.x
-		plan_point5.linear.y = base.point.y +checker.point.y+camera.point.y
-		plan_point5.linear.z = base.point.z +checker.point.z+camera.point.z
+		plan_point5.linear.x = xc
+		plan_point5.linear.y = yc
+		plan_point5.linear.z = zc
 		plan_point5.angular.x = 3.14
 		plan_point5.angular.y = 0.0
 		plan_point5.angular.z = 1.57
@@ -175,14 +166,15 @@ if __name__ == '__main__':
 		
 		plan_point6 = Twist()
 		# define a point away from the initial position
-		plan_point6.linear.x = base.point.x +checker.point.x+camera.point.x +xc
-		plan_point6.linear.y = base.point.y +checker.point.y+camera.point.y +yc
-		plan_point6.linear.z = base.point.z +checker.point.z+camera.point.z +zc
+		plan_point6.linear.x = base.point.x + (checker.point.x - base.point.x)+(camera.point.x-checker.point.x)+(xc - camera.point.x)
+		plan_point6.linear.y = base.point.y + (checker.point.y - base.point.y)+(camera.point.y-checker.point.y)+(yc - camera.point.y)
+		plan_point6.linear.z = base.point.z + (checker.point.z - base.point.z)+(camera.point.z-checker.point.z)+(zc - camera.point.z)
 		plan_point6.angular.x = 3.14
 		plan_point6.angular.y = 0.0
 		plan_point6.angular.z = 1.57
 		# add this point to the plan
-		plan.points.append(plan_point6)
+		#plan.points.append(plan_point6)
 		
 		plan_pub.publish(plan)
 		loop_rate.sleep()
+
