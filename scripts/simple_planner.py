@@ -32,7 +32,7 @@ def get_sphere(data):
 def initiate_motion(data):
 	global motion
 	motion = data.data
-	print(motion)
+	
 	
 
 if __name__ == '__main__':
@@ -57,7 +57,8 @@ if __name__ == '__main__':
 	
 	while not rospy.is_shutdown():
 		
-		if motion:
+		if motion == False:
+			print(motion)
 			# try getting the most update transformation between the tool frame and the base frame
 			try:
 				trans = tfBuffer.lookup_transform("base", "camera_color_optical_frame", rospy.Time())
