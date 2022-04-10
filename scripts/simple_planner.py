@@ -19,10 +19,12 @@ def get_sphere(data):
 	global xc
 	global yc
 	global zc
+	global radius
 	sphere_data = data
 	xc = data.xc
 	yc = data.yc
 	zc = data.zc
+	radius = data.radius
 	
 
 if __name__ == '__main__':
