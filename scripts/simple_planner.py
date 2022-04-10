@@ -95,7 +95,7 @@ if __name__ == '__main__':
 		
 		plan_point2 = Twist()
 		# define a point away from the initial position
-		plan_point2.linear.x = pt_in_base.point.x
+		plan_point2.linear.x = pt_in_base.point.x - radius
 		plan_point2.linear.y = pt_in_base.point.y
 		plan_point2.linear.z = pt_in_base.point.z
 		plan_point2.angular.x = 3.14
