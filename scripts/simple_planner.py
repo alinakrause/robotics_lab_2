@@ -18,16 +18,14 @@ sphere_data = SphereParams()
 motion = Bool()
 
 def get_sphere(data):
-	global sphere_data
 	global xc
 	global yc
 	global zc
-	global radius
-	sphere_data = data
+
 	xc = data.xc
 	yc = data.yc
 	zc = data.zc
-	radius = data.radius
+
 	
 def initiate_motion(data):
 	global motion
@@ -50,10 +48,6 @@ if __name__ == '__main__':
 	# define a plan variable
 	plan = Plan()
 	plan2 = Plan()
-	
-	
-
-
 	
 	
 	while not rospy.is_shutdown():
@@ -104,8 +98,8 @@ if __name__ == '__main__':
 		plan_point1.angular.y = 0.0
 		plan_point1.angular.z = 1.57
 		# add this point to the plan
-		plan.points.append(plan_point1)
-		plan2.points.append(plan_point1)
+		#plan.points.append(plan_point1)
+		#plan2.points.append(plan_point1)
 		
 		
 		plan_point2 = Twist()
@@ -117,7 +111,7 @@ if __name__ == '__main__':
 		plan_point2.angular.y = 0.0
 		plan_point2.angular.z = 1.57
 		# add this point to the plan
-		plan.points.append(plan_point2)
+		#plan.points.append(plan_point2)
 		
 		plan2_point2 = Twist()
 		# define a point away from the initial position
@@ -131,10 +125,15 @@ if __name__ == '__main__':
 		#plan2.points.append(plan2_point2)
 		
 		# publish the plan
-		
+		rospy.loginfo(motion)
 		if motion:
+			print(motion)
+			plan.points.append(plan_point1)
+			plan.points.append(plan_point2)
 			plan_pub.publish(plan)
-		else:
+		elif not motion:
+			print(motion)
+			plan2.points.append(plan_point1)
 			plan_pub.publish(plan2)
 		# wait for 0.1 seconds until the next loop and repeat
 		loop_rate.sleep()
