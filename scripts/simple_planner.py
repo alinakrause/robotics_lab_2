@@ -47,7 +47,7 @@ if __name__ == '__main__':
 	q_rot = Quaternion()	
 	# define a plan variable
 	plan = Plan()
-	plan2 = Plan()
+
 	
 	
 	while not rospy.is_shutdown():
@@ -98,8 +98,8 @@ if __name__ == '__main__':
 		plan_point1.angular.y = 0.0
 		plan_point1.angular.z = 1.57
 		# add this point to the plan
-		#plan.points.append(plan_point1)
-		#plan2.points.append(plan_point1)
+		plan.points.append(plan_point1)
+
 		
 		
 		plan_point2 = Twist()
@@ -111,32 +111,20 @@ if __name__ == '__main__':
 		plan_point2.angular.y = 0.0
 		plan_point2.angular.z = 1.57
 		# add this point to the plan
-		#plan.points.append(plan_point2)
+		plan.points.append(plan_point2)
 		
-		plan2_point2 = Twist()
-		# define a point away from the initial position
-		plan2_point2.linear.x = -0.6
-		plan2_point2.linear.y = -0.23
-		plan2_point2.linear.z = 0.25
-		plan2_point2.angular.x = 3.14
-		plan2_point2.angular.y = 0.0
-		plan2_point2.angular.z = 1.57
-		# add this point to the plan
-		#plan2.points.append(plan2_point2)
+		
 		
 		# publish the plan
-		rospy.loginfo(motion)
-		if motion:
-			print(motion)
-			plan.points.append(plan_point1)
-			plan.points.append(plan_point2)
+
+		if motion == True:
+
 			plan_pub.publish(plan)
-		elif not motion:
-			print(motion)
-			plan2.points.append(plan_point1)
-			plan_pub.publish(plan2)
+
 		# wait for 0.1 seconds until the next loop and repeat
 		loop_rate.sleep()
+
+
 
 
 
