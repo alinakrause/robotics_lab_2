@@ -54,7 +54,7 @@ if __name__ == '__main__':
 		
 		
 			
-		# try getting the most update transformation between the tool frame and the base frame
+		# try getting the most update transformation between the camera frame and the base frame
 		try:
 			trans = tfBuffer.lookup_transform("base", "camera_color_optical_frame", rospy.Time())
 		except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
