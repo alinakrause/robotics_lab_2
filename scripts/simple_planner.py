@@ -70,26 +70,25 @@ if __name__ == '__main__':
 		roll, pitch, yaw, = euler_from_quaternion([q_rot.x, q_rot.y, q_rot.z, q_rot.w])
 		# a quick check of the readings
 		 
-		# define a testpoint in the tool frame (let's say 10 cm away from flange)
-		pt_in_tool = tf2_geometry_msgs.PointStamped()
-		pt_in_tool.header.frame_id = 'camera_color_optical_frame'
-		pt_in_tool.header.stamp = rospy.get_rostime()
+		# define coorinates in camera frame
+		pt_in_camera = tf2_geometry_msgs.PointStamped()
+		pt_in_camera.header.frame_id = 'camera_color_optical_frame'
+		pt_in_camera.header.stamp = rospy.get_rostime()
 		
-		pt_in_tool.point.x= xc
-		pt_in_tool.point.y= yc
-		pt_in_tool.point.z= zc
+		pt_in_camera.point.x= xc
+		pt_in_camera.point.y= yc
+		pt_in_camera.point.z= zc
 		
 		
 		
 		# convert the 3D point to the base frame coordinates
-		pt_in_base = tfBuffer.transform(pt_in_tool,'base', rospy.Duration(1.0))
-		print('Points in the camera frame:  x= ', format(pt_in_tool.point.x, '.3f'), '(m), y= ', format(pt_in_tool.point.y, '.3f'), '(m), z= ', format(pt_in_tool.point.z, '.3f'),'(m)')
+		pt_in_base = tfBuffer.transform(pt_in_camera,'base', rospy.Duration(1.0))
+		print('Points in the camera frame:  x= ', format(pt_in_camera.point.x, '.3f'), '(m), y= ', format(pt_in_camera.point.y, '.3f'), '(m), z= ', format(pt_in_camera.point.z, '.3f'),'(m)')
 		print('Transformed points in the BASE frame:  x= ', format(pt_in_base.point.x, '.3f'), '(m), y= ', format(pt_in_base.point.y, '.3f'), '(m), z= ', format(pt_in_base.point.z, '.3f'),'(m)')
 		print('-------------------------------------------------')
 		
 		
 		plan_point1 = Twist()
-		# just a quick solution to send two target points
 		# define a point close to the initial position
 		plan_point1.linear.x = -0.7
 		plan_point1.linear.y = -0.23
@@ -103,7 +102,7 @@ if __name__ == '__main__':
 		
 		
 		plan_point2 = Twist()
-		# define a point away from the initial position
+		# point for the ball position
 		plan_point2.linear.x = pt_in_base.point.x
 		plan_point2.linear.y = pt_in_base.point.y
 		plan_point2.linear.z = pt_in_base.point.z
@@ -115,7 +114,7 @@ if __name__ == '__main__':
 		
 		
 		
-		# publish the plan
+		# publish the plan if movemnt true
 
 		if motion == True:
 
