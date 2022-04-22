@@ -17,16 +17,17 @@ sphere_data = SphereParams()
 
 #motion = Bool()
 motion = False
-
+ball_ready = False 
 def get_sphere(data):
 	global xc
 	global yc
 	global zc
-
+	global ball_ready 
+	ball_ready = True
 	xc = data.xc
 	yc = data.yc
 	zc = data.zc
-
+	
 	
 def initiate_motion(data):
 	global motion
@@ -49,7 +50,7 @@ if __name__ == '__main__':
 	# define a plan variable
 	plan = Plan()
 
-	
+	plan_generated = False
 	
 	while not rospy.is_shutdown():
 		
@@ -70,50 +71,95 @@ if __name__ == '__main__':
 		q_rot = trans.transform.rotation
 		roll, pitch, yaw, = euler_from_quaternion([q_rot.x, q_rot.y, q_rot.z, q_rot.w])
 		# a quick check of the readings
-		 
-		# define coorinates in camera frame
-		pt_in_camera = tf2_geometry_msgs.PointStamped()
-		pt_in_camera.header.frame_id = 'camera_color_optical_frame'
-		pt_in_camera.header.stamp = rospy.get_rostime()
-		
-		pt_in_camera.point.x= xc
-		pt_in_camera.point.y= yc
-		pt_in_camera.point.z= zc
-		
-		
-		
-		# convert the 3D point to the base frame coordinates
-		pt_in_base = tfBuffer.transform(pt_in_camera,'base', rospy.Duration(1.0))
-		print('Points in the camera frame:  x= ', format(pt_in_camera.point.x, '.3f'), '(m), y= ', format(pt_in_camera.point.y, '.3f'), '(m), z= ', format(pt_in_camera.point.z, '.3f'),'(m)')
-		print('Transformed points in the BASE frame:  x= ', format(pt_in_base.point.x, '.3f'), '(m), y= ', format(pt_in_base.point.y, '.3f'), '(m), z= ', format(pt_in_base.point.z, '.3f'),'(m)')
-		print('-------------------------------------------------')
-		
-		
-		plan_point1 = Twist()
-		# define a point close to the initial position
-		plan_point1.linear.x = -0.7
-		plan_point1.linear.y = -0.23
-		plan_point1.linear.z = 0.363
-		plan_point1.angular.x = 3.14
-		plan_point1.angular.y = 0.0
-		plan_point1.angular.z = 1.57
-		# add this point to the plan
-		plan.points.append(plan_point1)
+		if ball_ready and not plan_generated:	 
+			# define coorinates in camera frame
+			pt_in_camera = tf2_geometry_msgs.PointStamped()
+			pt_in_camera.header.frame_id = 'camera_color_optical_frame'
+			pt_in_camera.header.stamp = rospy.get_rostime()
+			
+			pt_in_camera.point.x= xc
+			pt_in_camera.point.y= yc
+			pt_in_camera.point.z= zc
+			
+			
+			
+			# convert the 3D point to the base frame coordinates
+			pt_in_base = tfBuffer.transform(pt_in_camera,'base', rospy.Duration(1.0))
+			print('Points in the camera frame:  x= ', format(pt_in_camera.point.x, '.3f'), '(m), y= ', format(pt_in_camera.point.y, '.3f'), '(m), z= ', format(pt_in_camera.point.z, '.3f'),'(m)')
+			print('Transformed points in the BASE frame:  x= ', format(pt_in_base.point.x, '.3f'), '(m), y= ', format(pt_in_base.point.y, '.3f'), '(m), z= ', format(pt_in_base.point.z, '.3f'),'(m)')
+			print('-------------------------------------------------')
+			
+			roll, pitch, yaw = 3.12614, 0.0166, 1.5308
+			plan_point1 = Twist()
+			# define a point close to the initial position
+			plan_point1.linear.x = -0.0143
+			plan_point1.linear.y = -0.4087
+			plan_point1.linear.z = 0.2743
+			plan_point1.angular.x = roll
+			plan_point1.angular.y = pitch
+			plan_point1.angular.z = yaw
+			# add this point to the plan
+			plan.points.append(plan_point1)
 
-		
-		
-		plan_point2 = Twist()
-		# point for the ball position
-		plan_point2.linear.x = pt_in_base.point.x
-		plan_point2.linear.y = pt_in_base.point.y
-		plan_point2.linear.z = pt_in_base.point.z
-		plan_point2.angular.x = 3.14
-		plan_point2.angular.y = 0.0
-		plan_point2.angular.z = 1.57
-		# add this point to the plan
-		plan.points.append(plan_point2)
-		
-		
+			
+			
+			plan_point2 = Twist()
+			# point for the ball position
+			plan_point2.linear.x = pt_in_base.point.x
+			plan_point2.linear.y = pt_in_base.point.y
+			plan_point2.linear.z = pt_in_base.point.z + 0.1
+			plan_point2.angular.x = roll
+			plan_point2.angular.y = pitch
+			plan_point2.angular.z = yaw
+			# add this point to the plan
+			plan.points.append(plan_point2)
+			
+			
+			plan_point3 = Twist()
+			# point for the ball position
+			plan_point3.linear.x = pt_in_base.point.x
+			plan_point3.linear.y = pt_in_base.point.y
+			plan_point3.linear.z = pt_in_base.point.z + 0.015
+			plan_point3.angular.x = roll
+			plan_point3.angular.y = pitch
+			plan_point3.angular.z = yaw
+			# add this point to the plan
+			plan.points.append(plan_point3)
+			
+			plan_point4 = Twist()
+			# point for the ball position
+			plan_point4.linear.x = pt_in_base.point.x
+			plan_point4.linear.y = pt_in_base.point.y
+			plan_point4.linear.z = pt_in_base.point.z + 0.1
+			plan_point4.angular.x = roll
+			plan_point4.angular.y = pitch
+			plan_point4.angular.z = yaw
+			# add this point to the plan
+			plan.points.append(plan_point4)
+			
+			plan_point5 = Twist()
+			# point for the ball position
+			plan_point5.linear.x = pt_in_base.point.x + 0.3
+			plan_point5.linear.y = pt_in_base.point.y + 0.1
+			plan_point5.linear.z = pt_in_base.point.z + 0.2
+			plan_point5.angular.x = roll
+			plan_point5.angular.y = pitch
+			plan_point5.angular.z = yaw
+			# add this point to the plan
+			plan.points.append(plan_point5)
+			
+			plan_point6 = Twist()
+			# point for the ball position
+			plan_point6.linear.x = pt_in_base.point.x + 0.3
+			plan_point6.linear.y = pt_in_base.point.y + 0.1
+			plan_point6.linear.z = pt_in_base.point.z + 0.1
+			plan_point6.angular.x = roll
+			plan_point6.angular.y = pitch
+			plan_point6.angular.z = yaw
+			# add this point to the plan
+			plan.points.append(plan_point6)
+			plan_generated = True
+			
 		
 		# publish the plan if movemnt true
 
