@@ -15,7 +15,8 @@ from robot_vision_lectures.msg import SphereParams
 
 sphere_data = SphereParams()
 
-motion = Bool()
+#motion = Bool()
+motion = False
 
 def get_sphere(data):
 	global xc
