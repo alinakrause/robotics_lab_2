@@ -63,39 +63,50 @@ if __name__ == '__main__':
 	fil_in = [0.0,0.0,0.0,0.0] # before the first reading
 	fil_out = [0.0,0.0,0.5,0.04] # an initial guess before the first reading
 	fil_gain = [0.05,0.05,0.05,0.05] # how much of the most recent input is included 
+	
+	initiate = True
 
 	while not rospy.is_shutdown():
+	
 		if sphere_computed: 
-			# filter xc
-			# update the filter input
-			fil_in[0] = sphere_data.xc
-			# filter the position
-			fil_out[0] = fil_gain[0]*fil_in[0] + (1 - fil_gain[0])*fil_out[0]
-			# update and publish the message
-			sphere_data.xc = fil_out[0]
 			
-			# filter yc
-			# update the filter input
-			fil_in[1] = sphere_data.yc
-			# filter the position
-			fil_out[1] = fil_gain[1]*fil_in[1] + (1 - fil_gain[1])*fil_out[1]
-			# update and publish the message
-			sphere_data.yc = fil_out[1]
-			
-			# filter zc
-			# update the filter input
-			fil_in[2] = sphere_data.zc
-			# filter the position
-			fil_out[2] = fil_gain[2]*fil_in[2] + (1 - fil_gain[2])*fil_out[2]
-			# update and publish the message
-			sphere_data.zc = fil_out[2]
-			
-			#filter radius
-			# update the filter input
-			fil_in[3] = sphere_data.radius
-			# filter the position
-			fil_out[3] = fil_gain[3]*fil_in[3] + (1 - fil_gain[3])*fil_out[3]
-			# update and publish the message
-			sphere_data.radius = fil_out[3]
-			img_pub.publish(sphere_data)
+			if initiate:
+				fil_out[0] = sphere_data.xc
+				fil_out[1] = sphere_data.yc
+				fil_out[2] = sphere_data.zc
+				fil_out[3] = sphere_data.radius
+				initiate = False
+			else:
+				# filter xc
+				# update the filter input
+				fil_in[0] = sphere_data.xc
+				# filter the position
+				fil_out[0] = fil_gain[0]*fil_in[0] + (1 - fil_gain[0])*fil_out[0]
+				# update and publish the message
+				sphere_data.xc = fil_out[0]
+				
+				# filter yc
+				# update the filter input
+				fil_in[1] = sphere_data.yc
+				# filter the position
+				fil_out[1] = fil_gain[1]*fil_in[1] + (1 - fil_gain[1])*fil_out[1]
+				# update and publish the message
+				sphere_data.yc = fil_out[1]
+				
+				# filter zc
+				# update the filter input
+				fil_in[2] = sphere_data.zc
+				# filter the position
+				fil_out[2] = fil_gain[2]*fil_in[2] + (1 - fil_gain[2])*fil_out[2]
+				# update and publish the message
+				sphere_data.zc = fil_out[2]
+				
+				#filter radius
+				# update the filter input
+				fil_in[3] = sphere_data.radius
+				# filter the position
+				fil_out[3] = fil_gain[3]*fil_in[3] + (1 - fil_gain[3])*fil_out[3]
+				# update and publish the message
+				sphere_data.radius = fil_out[3]
+				img_pub.publish(sphere_data)
 		rate.sleep()
