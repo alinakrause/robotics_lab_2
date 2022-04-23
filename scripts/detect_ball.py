@@ -25,8 +25,8 @@ if __name__ == '__main__':
 	
 	#define  region of interest
 	rectangle = np.zeros((720,1280),dtype = "uint8")
-	cv2.rectangle(rectangle,(110,110),(715,1255),255,-1)
-
+	cv2.rectangle(rectangle,(150,100),(1130,620),255,-1)
+	
 
 	# define the node and subcribers and publishers
 	rospy.init_node('detect_ball', anonymous = True)
@@ -55,6 +55,7 @@ if __name__ == '__main__':
 			bitwiseAnd = cv2.bitwise_and(rectangle, yellow_mask)			
 			# convert it to ros msg and publish it			
 			img_msg = CvBridge().cv2_to_imgmsg(bitwiseAnd, encoding="mono8")
+			
 			# publish the image
 			img_pub.publish(img_msg)
 		# pause until the next iteration			
