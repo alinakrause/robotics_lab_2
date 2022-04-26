@@ -12,6 +12,7 @@ from ur5e_control.msg import Plan
 from geometry_msgs.msg import Twist
 from std_msgs.msg import Bool
 from robot_vision_lectures.msg import SphereParams
+from std_msgs.msg import UInt8
 
 sphere_data = SphereParams()
 
@@ -53,8 +54,9 @@ def get_pos(data):
 	
 	robot_ready = True
 	
-def set_plan(linX,linY,linZ,roll,pitch,yaw,plan):
+def set_plan(linX,linY,linZ,roll,pitch,yaw,plan,mode):
 	point = Twist()
+	point_mode = UInt8()
 		
 	point.linear.x = linX
 	point.linear.y = linY
@@ -62,8 +64,10 @@ def set_plan(linX,linY,linZ,roll,pitch,yaw,plan):
 	point.angular.x = roll
 	point.angular.y = pitch
 	point.angular.z = yaw
+	point_mode.data = mode
 		
 	plan.points.append(point)
+	plan.modes.append(point_mode)
 	
 
 if __name__ == '__main__':
@@ -106,16 +110,19 @@ if __name__ == '__main__':
 			print('-------------------------------------------------')
 			
 			#roll, pitch, yaw = 3.12614, 0.0166, 1.5308
+			# 0=leave 1=open 2=close
 			
-			set_plan(posX,posY,posZ,r,p,y,plan)
-			set_plan(pt_in_base.point.x,pt_in_base.point.y,pt_in_base.point.z + 0.1,r,p,y,plan)
-			set_plan(pt_in_base.point.x,pt_in_base.point.y,pt_in_base.point.z + 0.015,r,p,y,plan)
-			set_plan(pt_in_base.point.x,pt_in_base.point.y,pt_in_base.point.z + 0.1,r,p,y,plan)
-			set_plan(pt_in_base.point.x + 0.3,pt_in_base.point.y + 0.1,pt_in_base.point.z + 0.2,r,p,y,plan)
-			set_plan(pt_in_base.point.x + 0.3,pt_in_base.point.y + 0.1,pt_in_base.point.z + 0.1,r,p,y,plan)
-			set_plan(pt_in_base.point.x + 0.3,pt_in_base.point.y + 0.1,pt_in_base.point.z + 0.2,r,p,y,plan)
-			set_plan(pt_in_base.point.x,pt_in_base.point.y,pt_in_base.point.z + 0.1,r,p,y,plan)
-			set_plan(posX,posY,posZ,r,p,y,plan)
+			set_plan(posX,posY,posZ,r,p,y,plan,0)
+			set_plan(pt_in_base.point.x,pt_in_base.point.y,pt_in_base.point.z + 0.1,r,p,y,plan,0)
+			set_plan(pt_in_base.point.x,pt_in_base.point.y,pt_in_base.point.z + 0.015,r,p,y,plan,0)
+			set_plan(pt_in_base.point.x,pt_in_base.point.y,pt_in_base.point.z + 0.015,r,p,y,plan,2)
+			set_plan(pt_in_base.point.x,pt_in_base.point.y,pt_in_base.point.z + 0.1,r,p,y,plan,0)
+			set_plan(pt_in_base.point.x + 0.3,pt_in_base.point.y + 0.1,pt_in_base.point.z + 0.2,r,p,y,plan,0)
+			set_plan(pt_in_base.point.x + 0.3,pt_in_base.point.y + 0.1,pt_in_base.point.z + 0.1,r,p,y,plan,0)
+			set_plan(pt_in_base.point.x + 0.3,pt_in_base.point.y + 0.1,pt_in_base.point.z + 0.1,r,p,y,plan,1)
+			set_plan(pt_in_base.point.x + 0.3,pt_in_base.point.y + 0.1,pt_in_base.point.z + 0.2,r,p,y,plan,0)
+			set_plan(pt_in_base.point.x,pt_in_base.point.y,pt_in_base.point.z + 0.1,r,p,y,plan,0)
+			set_plan(posX,posY,posZ,r,p,y,plan,0)
 			
 			plan_generated = True
 			
