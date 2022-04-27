@@ -111,18 +111,19 @@ if __name__ == '__main__':
 			
 			#roll, pitch, yaw = 3.12614, 0.0166, 1.5308
 			# 0=leave 1=open 2=close
-			
+			y_offset = -0.01
+			z_offset = 0.015
 			set_plan(posX,posY,posZ,r,p,y,plan,0)
-			set_plan(pt_in_base.point.x,pt_in_base.point.y,pt_in_base.point.z + 0.1,r,p,y,plan,0)
-			set_plan(pt_in_base.point.x,pt_in_base.point.y,pt_in_base.point.z + 0.015,r,p,y,plan,0)
-			set_plan(pt_in_base.point.x,pt_in_base.point.y,pt_in_base.point.z + 0.015,r,p,y,plan,2)
+			set_plan(pt_in_base.point.x,pt_in_base.point.y+y_offset,pt_in_base.point.z + 0.1,r,p,y,plan,0)
+			set_plan(pt_in_base.point.x,pt_in_base.point.y+y_offset,pt_in_base.point.z + z_offset,r,p,y,plan,0)
+			set_plan(pt_in_base.point.x,pt_in_base.point.y+y_offset,pt_in_base.point.z + z_offset,r,p,y,plan,2)
 			set_plan(pt_in_base.point.x,pt_in_base.point.y,pt_in_base.point.z + 0.1,r,p,y,plan,0)
 			set_plan(pt_in_base.point.x + 0.3,pt_in_base.point.y + 0.1,pt_in_base.point.z + 0.2,r,p,y,plan,0)
-			set_plan(pt_in_base.point.x + 0.3,pt_in_base.point.y + 0.1,pt_in_base.point.z + 0.1,r,p,y,plan,0)
-			set_plan(pt_in_base.point.x + 0.3,pt_in_base.point.y + 0.1,pt_in_base.point.z + 0.1,r,p,y,plan,1)
+			set_plan(pt_in_base.point.x + 0.3,pt_in_base.point.y + 0.1,pt_in_base.point.z + z_offset,r,p,y,plan,0)
+			set_plan(pt_in_base.point.x + 0.3,pt_in_base.point.y + 0.1,pt_in_base.point.z + z_offset,r,p,y,plan,1)
 			set_plan(pt_in_base.point.x + 0.3,pt_in_base.point.y + 0.1,pt_in_base.point.z + 0.2,r,p,y,plan,0)
-			set_plan(pt_in_base.point.x,pt_in_base.point.y,pt_in_base.point.z + 0.1,r,p,y,plan,0)
-			set_plan(posX,posY,posZ,r,p,y,plan,0)
+			#set_plan(pt_in_base.point.x,pt_in_base.point.y,pt_in_base.point.z + 0.1,r,p,y,plan,0)
+			#set_plan(posX,posY,posZ,r,p,y,plan,0)
 			
 			plan_generated = True
 			
@@ -135,7 +136,6 @@ if __name__ == '__main__':
 
 		# wait for 0.1 seconds until the next loop and repeat
 		loop_rate.sleep()
-
 
 
 
